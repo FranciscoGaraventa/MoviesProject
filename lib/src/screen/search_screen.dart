@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import '../bloc/movies_bloc.dart';
+import '../widgets/grid_builder.dart';
 import '../widgets/mock_genres.dart';
-import '../widgets/mock_movies.dart';
 import '../styles/dimensions.dart';
 import '../styles/styles.dart';
 
@@ -11,16 +12,24 @@ class SearchScreen extends StatefulWidget {
     Key key,
     this.title,
     this.icon,
+    this.blocMovies,
   }) : super(key: key);
 
   final String title;
   final IconData icon;
+  final MoviesBloc blocMovies;
 
   @override
   State<StatefulWidget> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  @override
+  void initState() {
+    super.initState();
+    widget.blocMovies.fetchAllMovies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +61,18 @@ class _SearchScreenState extends State<SearchScreen> {
         child: MockGenres(),
       ),
       body: Center(
-        child: MockMovies(),
+        child: StreamBuilder(
+            stream: widget.blocMovies.allMovies,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return GridBuilder(
+                  resultData: snapshot.data,
+                );
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              return Center(child: CircularProgressIndicator());
+            }),
       ),
     );
   }
