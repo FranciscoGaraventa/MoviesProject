@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'bloc/movies_bloc.dart';
 import 'screen/search_screen.dart';
 
 class MyApp extends StatefulWidget {
@@ -19,6 +20,7 @@ class _MyAppState extends State<MyApp> {
       home: SearchScreen(
         title: 'THE MOVIE SEARCHER',
         icon: IconData(0xe890, fontFamily: 'MaterialIcons'),
+        blocMovies: MoviesBloc(),
       ),
     );
   }
