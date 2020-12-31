@@ -5,11 +5,13 @@ class ItemModel {
   List<Result> _results = [];
 
   ItemModel.fromJson(Map<String, dynamic> parsedJson) {
-    _page = parsedJson['page'];
     List<Result> temp = [];
-    for (int i = 0; i < parsedJson['results'].length; i++) {
-      Result result = Result(parsedJson['results'][i]);
-      temp.add(result);
+    if (parsedJson != null) {
+      _page = parsedJson['page'];
+      for (int i = 0; i < parsedJson['results'].length; i++) {
+        Result result = Result(parsedJson['results'][i]);
+        temp.add(result);
+      }
     }
     _results = temp;
   }

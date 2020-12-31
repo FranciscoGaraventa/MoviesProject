@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/src/bloc/genres_bloc.dart';
+import '../screen/movie_info_screen.dart';
 import '../models/result_model.dart';
 import '../styles/dimensions.dart';
 
@@ -15,18 +17,32 @@ class CardGrid extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: Card(
-              clipBehavior: Clip.antiAlias,
-              shape: RoundedRectangleBorder(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MovieInfo(
+                      movie: movieResult,
+                      blocGenres: GenresBloc(),
+                    ),
+                  ),
+                );
+              },
+              child: Card(
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(Dimension.cardBorderRadius)),
+                child: ClipRRect(
                   borderRadius:
-                      BorderRadius.circular(Dimension.cardBorderRadius)),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(Dimension.clipBorderRadius),
-                child: Hero(
-                  tag: movieResult.id,
-                  child: Image.network(
-                    movieResult.backdropPath,
-                    fit: BoxFit.cover,
+                      BorderRadius.circular(Dimension.clipBorderRadius),
+                  child: Hero(
+                    tag: movieResult.id,
+                    child: Image.network(
+                      movieResult.backdropPath,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
