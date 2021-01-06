@@ -11,4 +11,7 @@ class MoviesRepository implements IMovieRepository {
 
   @override
   Future<GenreModel> fetchAllGenres() => moviesApiProvider.fetchGenreList();
+
+  @override
+  Future<ItemModel> fetchMovieByGenre(genre) => moviesApiProvider.fetchMovieByGenre(genre);
 }

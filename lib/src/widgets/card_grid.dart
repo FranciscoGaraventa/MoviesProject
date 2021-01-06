@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_app/src/bloc/genres_bloc.dart';
+import '../bloc/genres_bloc.dart';
 import '../screen/movie_info_screen.dart';
 import '../models/result_model.dart';
 import '../styles/dimensions.dart';
@@ -39,10 +39,12 @@ class CardGrid extends StatelessWidget {
                       BorderRadius.circular(Dimension.clipBorderRadius),
                   child: Hero(
                     tag: movieResult.id,
-                    child: Image.network(
-                      movieResult.backdropPath,
-                      fit: BoxFit.cover,
-                    ),
+                    child: movieResult.backdropPath != null
+                        ? Image.network(
+                            movieResult.backdropPath,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset('assets/images/imageNoAvailable.svg'),
                   ),
                 ),
               ),

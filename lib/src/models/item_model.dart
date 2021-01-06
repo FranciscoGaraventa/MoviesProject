@@ -20,4 +20,3 @@ class ItemModel {
 
   int get page => _page;
 }
-
