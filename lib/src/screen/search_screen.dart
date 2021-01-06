@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import '../bloc/movies_bloc.dart';
-import '../widgets/grid_builder.dart';
+import '../widgets/movie_list.dart';
 import '../widgets/mock_genres.dart';
 import '../styles/dimensions.dart';
 import '../styles/styles.dart';
@@ -65,7 +65,7 @@ class _SearchScreenState extends State<SearchScreen> {
             stream: widget.blocMovies.allMovies,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return GridBuilder(
+                return MovieList(
                   resultData: snapshot.data,
                 );
               } else if (snapshot.hasError) {

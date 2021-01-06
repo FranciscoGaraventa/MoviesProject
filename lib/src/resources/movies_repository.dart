@@ -1,3 +1,4 @@
+import '../models/genre_model.dart';
 import '../models/item_model.dart';
 import 'movie_api_provider.dart';
 import 'movie_repository_interface.dart';
@@ -7,4 +8,7 @@ class MoviesRepository implements IMovieRepository {
 
   @override
   Future<ItemModel> fetchTrendingMovies() => moviesApiProvider.fetchMovieList();
+
+  @override
+  Future<GenreModel> fetchAllGenres() => moviesApiProvider.fetchGenreList();
 }
