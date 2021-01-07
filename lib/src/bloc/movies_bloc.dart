@@ -19,6 +19,11 @@ class MoviesBloc extends Bloc {
     _moviesFetcherController.sink.add(itemModel);
   }
 
+  void fetchMoviesByGenre(int genreId) async {
+    ItemModel itemModel = await _repository.fetchMovieByGenre(genreId);
+    _moviesFetcherController.sink.add(itemModel);
+  }
+
   @override
   void initialize() {}
 }

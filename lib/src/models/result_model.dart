@@ -23,16 +23,20 @@ class Result {
     }
     _originalLanguage = result['original_language'];
     _originalTitle = result['original_title'];
-    _posterPath = BaseUrl.moviePath + result['poster_path'];
+    _posterPath = result['poster_path'] != null
+        ? BaseUrl.moviePath + result['poster_path']
+        : null;
     _video = result['video'];
-    _voteAverage = result['vote_average'];
+    _voteAverage = double.tryParse(result['vote_average'].toString());
     _id = result['id'];
     _overview = result['overview'];
     _releaseDate = result['release_date'];
     _voteCount = result['vote_count'];
     _title = result['title'];
     _adult = result['adult'];
-    _backdropPath = BaseUrl.backdropPath + result['backdrop_path'];
+    _backdropPath = result['backdrop_path'] != null
+        ? BaseUrl.backdropPath + result['backdrop_path']
+        : null;
     _popularity = result['popularity'];
     _mediaType = result['media_type'];
   }

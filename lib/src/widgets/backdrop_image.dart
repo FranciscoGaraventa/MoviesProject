@@ -24,9 +24,11 @@ class BackdropImage extends StatelessWidget {
             width: double.infinity,
             child: Hero(
               tag: movie.id,
-              child: Image.network(
-                movie.backdropPath,
-              ),
+              child: movie.backdropPath != null
+                  ? Image.network(
+                      movie.backdropPath,
+                    )
+                  : Image.asset('assets/images/imageNoAvailable.svg'),
             ),
           ),
           BackDropRating(
@@ -43,3 +45,4 @@ class BackdropImage extends StatelessWidget {
     return _buildContent();
   }
 }
+

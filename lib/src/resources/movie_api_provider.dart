@@ -9,8 +9,7 @@ class MovieApiProvider {
   final _apiKey = '4d78e349d0cf62194053e8daf6826b2a';
 
   Future<ItemModel> fetchMovieList() async {
-    final response = await client.get(
-        BaseUrl.trendingMovies+'$_apiKey');
+    final response = await client.get(BaseUrl.trendingMovies + '$_apiKey');
     if (response.statusCode == 200) {
       return ItemModel.fromJson(json.decode(response.body));
     } else {
@@ -19,11 +18,19 @@ class MovieApiProvider {
   }
 
   Future<GenreModel> fetchGenreList() async {
-    final response = await client.get(
-      BaseUrl.genresMovies+'$_apiKey');
-    if (response.statusCode == 200){
+    final response = await client.get(BaseUrl.genresMovies + '$_apiKey');
+    if (response.statusCode == 200) {
       return GenreModel.fromJson(json.decode(response.body));
-    }else{
+    } else {
+      return null;
+    }
+  }
+
+  Future<ItemModel> fetchMovieByGenre(int genreId) async {
+    final response = await client.get(BaseUrl.moviesByGenreBasicUrl + '$_apiKey' + BaseUrl.moviesWithGenres + '$genreId');
+    if (response.statusCode == 200) {
+      return ItemModel.fromJson(json.decode(response.body));
+    } else {
       return null;
     }
   }

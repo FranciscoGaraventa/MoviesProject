@@ -35,9 +35,9 @@ class StaggeredGridBuilder extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) => GenreCard(
         genre: _getGenreName(resultData, movie.genreIds[index]),
       ),
-      staggeredTileBuilder: (int index) => StaggeredTile.fit(Dimension.StaggeredTileFit),
-      mainAxisSpacing: Dimension.StaggeredTileMainAxisSpacing,
-      crossAxisSpacing: Dimension.StaggeredTileCrossAxisSpacing,
+      staggeredTileBuilder: (int index) => StaggeredTile.fit(Dimension.staggeredTileFit),
+      mainAxisSpacing: Dimension.staggeredTileMainAxisSpacing,
+      crossAxisSpacing: Dimension.staggeredTileCrossAxisSpacing,
     );
   }
 

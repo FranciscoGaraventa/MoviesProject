@@ -15,28 +15,28 @@ class BackDropRating extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     return Positioned(
-      bottom: Dimension.RatingPosition,
-      right: Dimension.RatingPosition,
+      bottom: Dimension.ratingPosition,
+      right: Dimension.ratingPosition,
       child: Container(
-        height: Dimension.RatingContainerHeight,
-        width: size.width * Dimension.RatingPercentage,
+        height: Dimension.ratingContainerHeight,
+        width: size.width * Dimension.ratingPercentage,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(Dimension.RatingBottomAndLeftRadius),
-            topLeft: Radius.circular(Dimension.RatingBottomAndLeftRadius),
+            bottomLeft: Radius.circular(Dimension.ratingBottomAndLeftRadius),
+            topLeft: Radius.circular(Dimension.ratingBottomAndLeftRadius),
           ),
           boxShadow: [
             BoxShadow(
               offset: Offset(
-                Dimension.RatingBoxShadowDx,
-                Dimension.RatingBoxShadowDy,
+                Dimension.ratingBoxShadowDx,
+                Dimension.ratingBoxShadowDy,
               ),
-              blurRadius: Dimension.RatingBoxShadowBlur,
+              blurRadius: Dimension.ratingBoxShadowBlur,
               color: Color(
-                Dimension.RatingBoxShadowColor,
+                Dimension.ratingBoxShadowColor,
               ).withOpacity(
-                Dimension.RatingBoxShadowOpacity,
+                Dimension.ratingBoxShadowOpacity,
               ),
             ),
           ],
@@ -58,13 +58,13 @@ class BackDropRating extends StatelessWidget {
                       TextSpan(
                         text: '${movie.voteAverage}/',
                         style: TextStyle(
-                            fontSize: Dimension.RatingVoteFontSize,
+                            fontSize: Dimension.ratingVoteFontSize,
                             fontWeight: FontWeight.w600),
                       ),
                       TextSpan(
                         text: '10',
                         style: TextStyle(
-                            fontSize: Dimension.RatingVoteFontSize,
+                            fontSize: Dimension.ratingVoteFontSize,
                             fontWeight: FontWeight.w600),
                       ),
                     ],
@@ -83,7 +83,7 @@ class BackDropRating extends StatelessWidget {
                       TextSpan(
                         text: '${movie.originalLanguage.toUpperCase()}',
                         style: TextStyle(
-                          fontSize: Dimension.RatingRichTextFontSize,
+                          fontSize: Dimension.ratingRichTextFontSize,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -103,7 +103,7 @@ class BackDropRating extends StatelessWidget {
                         TextSpan(
                           text: '${movie.releaseDate}',
                           style: TextStyle(
-                            fontSize: Dimension.RatingRichTextFontSize,
+                            fontSize: Dimension.ratingRichTextFontSize,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
