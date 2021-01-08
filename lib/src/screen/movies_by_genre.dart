@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../models/genre_result_model.dart';
+import '../events/movie_event.dart';
 import '../bloc/movies_bloc.dart';
-import '../widgets/movie_list.dart';
+import '../models/genre_result_model.dart';
+import '../widgets/movies_fetch_state.dart';
 
 class MoviesByGenre extends StatefulWidget {
   final GenreResult genre;
@@ -22,7 +22,8 @@ class _MoviesGenreList extends State<MoviesByGenre> {
   @override
   void initState() {
     super.initState();
-    widget.blocMovies.fetchMoviesByGenre(widget.genre.id);
+    widget.blocMovies.fetchMovies(
+        MovieEvent.loadMoviesByGenreId, widget.genre.id.toString());
   }
 
   Widget _buildContent() {
@@ -35,13 +36,11 @@ class _MoviesGenreList extends State<MoviesByGenre> {
           stream: widget.blocMovies.allMovies,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return MovieList(
-                resultData: snapshot.data,
+              return MoviesFetchState(
+                eventResult: snapshot.data,
               );
-            } else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
             }
-            return Center(child: CircularProgressIndicator());
+            return Container();
           },
         ),
       ),

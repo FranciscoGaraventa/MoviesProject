@@ -37,7 +37,7 @@ class Result {
     _backdropPath = result['backdrop_path'] != null
         ? BaseUrl.backdropPath + result['backdrop_path']
         : null;
-    _popularity = result['popularity'];
+    _popularity = double.tryParse(result['popularity'].toString());
     _mediaType = result['media_type'];
   }
 

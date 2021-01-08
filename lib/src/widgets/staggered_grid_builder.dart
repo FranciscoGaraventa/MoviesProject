@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'genre_card.dart';
 import '../styles/dimensions.dart';
 import '../models/genre_model.dart';
-import '../models/genre_result_model.dart';
 import '../models/result_model.dart';
-import 'genre_card.dart';
+import '../models/genre_result_model.dart';
 
 String _getGenreName(GenreModel data, int id) {
   for (GenreResult gr in data.genres) {
@@ -27,18 +26,23 @@ class StaggeredGridBuilder extends StatelessWidget {
   }) : super(key: key);
 
   Widget _buildContent(BuildContext context) {
-    return StaggeredGridView.countBuilder(
-      crossAxisCount: movie.genreIds.length < crossAxisCount ? movie.genreIds.length : crossAxisCount,
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: movie.genreIds.length,
-      itemBuilder: (BuildContext context, int index) => GenreCard(
-        genre: _getGenreName(resultData, movie.genreIds[index]),
-      ),
-      staggeredTileBuilder: (int index) => StaggeredTile.fit(Dimension.staggeredTileFit),
-      mainAxisSpacing: Dimension.staggeredTileMainAxisSpacing,
-      crossAxisSpacing: Dimension.staggeredTileCrossAxisSpacing,
-    );
+    return movie.genreIds.length != 0
+        ? StaggeredGridView.countBuilder(
+            crossAxisCount: movie.genreIds.length < crossAxisCount
+                ? movie.genreIds.length
+                : crossAxisCount,
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: movie.genreIds.length,
+            itemBuilder: (BuildContext context, int index) => GenreCard(
+              genre: _getGenreName(resultData, movie.genreIds[index]),
+            ),
+            staggeredTileBuilder: (int index) =>
+                StaggeredTile.fit(Dimension.staggeredTileFit),
+            mainAxisSpacing: Dimension.staggeredTileMainAxisSpacing,
+            crossAxisSpacing: Dimension.staggeredTileCrossAxisSpacing,
+          )
+        : Container();
   }
 
   @override
@@ -46,4 +50,3 @@ class StaggeredGridBuilder extends StatelessWidget {
     return _buildContent(context);
   }
 }
-

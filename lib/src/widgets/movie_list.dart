@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../styles/dimensions.dart';
 import '../models/item_model.dart';
@@ -17,8 +16,7 @@ class MovieList extends StatelessWidget {
   Widget _buildContent() {
     return GridView.builder(
       itemCount: resultData.results.length,
-      gridDelegate:
-          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossAxisCount),
       itemBuilder: (BuildContext context, int index) {
         return CardGrid(
           movieResult: resultData.results[index],

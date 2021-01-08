@@ -3,6 +3,7 @@ import '../models/item_model.dart';
 
 abstract class IMovieRepository {
   Future<ItemModel> fetchTrendingMovies();
-  Future<ItemModel> fetchMovieByGenre(int genreId);
+  Future<ItemModel> fetchMovieByGenre(String genreId);
+  Future<ItemModel> fetchMoviesBySearch(String query);
   Future<GenreModel> fetchAllGenres();
 }
