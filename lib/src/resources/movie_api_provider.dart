@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart';
-import 'package:movies_app/src/models/genre_model.dart';
 import 'base_url.dart';
 import '../models/item_model.dart';
+import '../models/genre_model.dart';
 
 class MovieApiProvider {
   Client client = Client();
@@ -26,8 +26,24 @@ class MovieApiProvider {
     }
   }
 
-  Future<ItemModel> fetchMovieByGenre(int genreId) async {
-    final response = await client.get(BaseUrl.moviesByGenreBasicUrl + '$_apiKey' + BaseUrl.moviesWithGenres + '$genreId');
+  Future<ItemModel> fetchMovieByGenre(String genreId) async {
+    final response = await client.get(BaseUrl.moviesByGenreBasicUrl +
+        '$_apiKey' +
+        BaseUrl.moviesWithGenres +
+        genreId);
+    if (response.statusCode == 200) {
+      return ItemModel.fromJson(json.decode(response.body));
+    } else {
+      return null;
+    }
+  }
+
+  Future<ItemModel> fetchMoviesBySearch(String query) async {
+    final response = await client.get(BaseUrl.moviesBySearchBasicUrl +
+        '$_apiKey' +
+        BaseUrl.moviesBySearchQuery +
+        query +
+        BaseUrl.moviesBySearchPages);
     if (response.statusCode == 200) {
       return ItemModel.fromJson(json.decode(response.body));
     } else {

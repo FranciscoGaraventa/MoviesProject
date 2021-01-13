@@ -6,18 +6,18 @@ import '../resources/movies_repository.dart';
 
 class GenresBloc extends Bloc {
   final _repository = MoviesRepository();
-  final StreamController<GenreModel> _genresFetchercontroller = BehaviorSubject();
+  final StreamController<GenreModel> _genresFetcherController = BehaviorSubject();
 
-  Stream<GenreModel> get allGenres => _genresFetchercontroller.stream;
+  Stream<GenreModel> get allGenres => _genresFetcherController.stream;
 
   @override
   void dispose() {
-    _genresFetchercontroller.close();
+    _genresFetcherController.close();
   }
 
   void fetchAllGenres() async {
     GenreModel genreModel = await _repository.fetchAllGenres();
-    _genresFetchercontroller.add(genreModel);
+    _genresFetcherController.add(genreModel);
   }
 
   @override

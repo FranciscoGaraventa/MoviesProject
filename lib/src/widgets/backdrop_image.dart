@@ -1,39 +1,33 @@
 import 'package:flutter/cupertino.dart';
-import '../styles/dimensions.dart';
+import 'package:flutter/material.dart';
 import '../models/result_model.dart';
-import 'backdrop_rating.dart';
 
 class BackdropImage extends StatelessWidget {
-  final Size size;
   final Result movie;
 
   BackdropImage({
     Key key,
-    this.size,
     this.movie,
   }) : super(key: key);
 
   Widget _buildContent() {
     return Container(
-      height: size.height * Dimension.backImagePercentage,
       child: Stack(
         children: <Widget>[
           Container(
-            height: size.height * Dimension.backImagePercentage -
-                Dimension.backImageLessX,
             width: double.infinity,
             child: Hero(
               tag: movie.id,
               child: movie.backdropPath != null
                   ? Image.network(
                       movie.backdropPath,
+                      fit: BoxFit.cover,
                     )
-                  : Image.asset('assets/images/imageNoAvailable.svg'),
+                  : Image.asset(
+                      'assets/images/imageNoAvailable.svg',
+                      fit: BoxFit.cover,
+                    ),
             ),
-          ),
-          BackDropRating(
-            size: size,
-            movie: movie,
           ),
         ],
       ),
@@ -45,4 +39,3 @@ class BackdropImage extends StatelessWidget {
     return _buildContent();
   }
 }
-

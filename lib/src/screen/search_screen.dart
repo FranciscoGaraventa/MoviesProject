@@ -1,12 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'movies_search.dart';
+import '../styles/styles.dart';
 import '../bloc/genres_bloc.dart';
 import '../bloc/movies_bloc.dart';
-import '../widgets/movie_list.dart';
-import '../widgets/genres_list.dart';
 import '../styles/dimensions.dart';
-import '../styles/styles.dart';
+import '../events/movie_event.dart';
+import '../widgets/genres_list.dart';
+import '../widgets/movies_fetch_state.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({
@@ -30,7 +31,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    widget.blocMovies.fetchAllMovies();
+    widget.blocMovies.fetchMovies(MovieEvent.loadTrendingMovies);
     widget.blocGenres.fetchAllGenres();
   }
 
@@ -57,7 +58,14 @@ class _SearchScreenState extends State<SearchScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () async {
+              await showSearch(
+                context: context,
+                delegate: CustomMoviesSearch(
+                  moviesBloc: MoviesBloc(),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -96,13 +104,11 @@ class _SearchScreenState extends State<SearchScreen> {
           stream: widget.blocMovies.allMovies,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return MovieList(
-                resultData: snapshot.data,
+              return MoviesFetchState(
+                eventResult: snapshot.data,
               );
-            } else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
             }
-            return Center(child: CircularProgressIndicator());
+            return Container();
           },
         ),
       ),
