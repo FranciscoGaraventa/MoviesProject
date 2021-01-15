@@ -2,8 +2,11 @@ import 'genre_result_model.dart';
 
 class GenreModel {
   List<GenreResult> _genres = [];
+  bool error;
 
-  GenreModel.fromJson(Map<String, dynamic> parsedJson) {
+  GenreModel({this.error = false});
+
+  void fromJson(Map<String, dynamic> parsedJson) {
     List<GenreResult> temp = [];
     if (parsedJson != null) {
       for (int i = 0; i < parsedJson['genres'].length; i++) {
@@ -15,4 +18,6 @@ class GenreModel {
   }
 
   List<GenreResult> get genres => _genres;
+
+  bool get getError => error;
 }

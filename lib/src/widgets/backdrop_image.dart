@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/src/styles/dimensions.dart';
 import '../models/result_model.dart';
 
 class BackdropImage extends StatelessWidget {
@@ -21,11 +22,12 @@ class BackdropImage extends StatelessWidget {
               child: movie.backdropPath != null
                   ? Image.network(
                       movie.backdropPath,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
+                      height: Dimension.movieInfoAppBarHeight + 50,
                     )
                   : Image.asset(
                       'assets/images/imageNoAvailable.svg',
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                     ),
             ),
           ),

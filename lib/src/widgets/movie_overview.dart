@@ -30,20 +30,33 @@ class MovieOverview extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          color: Colors.blueGrey.shade100,
-          child: Padding(
-            padding: EdgeInsets.all(Dimension.movieOverviewPadding),
-            child: Text(
-              movie.overview,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: Dimension.movieOverviewFontSize,
+        movie.overview != ""
+            ? Container(
+                color: Colors.blueGrey.shade100,
+                child: Padding(
+                  padding: EdgeInsets.all(Dimension.movieOverviewPadding),
+                  child: Text(
+                    movie.overview,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: Dimension.movieOverviewFontSize,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              )
+            : Container(
+                color: Colors.blueGrey.shade100,
+                child: Padding(
+                  padding: EdgeInsets.all(Dimension.movieOverviewPadding),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('NO OVERVIEW AVAILABLE',textAlign: TextAlign.center,),
+                    ],
+                  ),
+                ),
               ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
       ],
     );
   }

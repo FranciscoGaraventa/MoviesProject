@@ -30,7 +30,10 @@ abstract class Dimension {
   static const int movieListAxisCount = 2;
   static const double iconSearchTypeSize = 100.0;
   static const double searchEventTextFontSize = 16;
-  static const double movieInfoAppBarHeight = 200.0;
+  static const double movieInfoAppBarHeight = 250.0;
   static const double movieInfoAppBarTextFontSize = 16.0;
   static const double movieInfoPaddingBottom = 20;
+  static const double movieSliverLeadingOpacity = 0.8;
+  static const double movieSliverLeadingWidth = 2;
+  static const double movieSliverLeadingLeftEdgeInsets = 8.0;
 }

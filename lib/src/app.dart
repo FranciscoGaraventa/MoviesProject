@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'bloc/genres_bloc.dart';
 import 'bloc/bloc.dart';
+import 'styles/routes.dart';
 import 'bloc/movies_bloc.dart';
-import 'screen/search_screen.dart';
+import 'bloc/genres_bloc.dart';
+import 'resources/custom_router.dart';
+import 'package:provider/provider.dart';
+import 'bloc/connectivity_bloc.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -18,6 +21,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     _blocs.add(MoviesBloc());
     _blocs.add(GenresBloc());
+    _blocs.add(ConnectivityServiceBloc());
     _blocs.forEach((bloc) {
       bloc.initialize();
     });
@@ -41,18 +45,27 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Movies Searcher',
-      theme: ThemeData(
-        primaryColor: Colors.blue.shade900,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: SearchScreen(
-        title: 'THE MOVIE SEARCHER',
-        icon: IconData(0xe890, fontFamily: 'MaterialIcons'),
-        blocMovies: getDesireBloc<MoviesBloc>(),
-        blocGenres: getDesireBloc<GenresBloc>(),
+    return MultiProvider(
+      providers: [
+        Provider(
+          create: (_) => getDesireBloc<MoviesBloc>(),
+        ),
+        Provider(
+          create: (_) => getDesireBloc<GenresBloc>(),
+        ),
+        Provider(
+          create: (_) => getDesireBloc<ConnectivityServiceBloc>(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Movies Searcher',
+        theme: ThemeData(
+          primaryColor: Colors.blue.shade900,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: NavigationRoutes.generateRoute,
+        initialRoute: homeRoute,
       ),
     );
   }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import '../bloc/genres_bloc.dart';
+import 'package:movies_app/src/widgets/empty_state.dart';
+import 'error_state.dart';
+import 'initial_state.dart';
+import '../styles/routes.dart';
 import '../styles/dimensions.dart';
 import '../models/item_model.dart';
 import '../events/search_event.dart';
-import '../screen/movie_info_screen.dart';
 
 class SearchStates extends StatelessWidget {
   final SearchEvent results;
@@ -13,46 +15,16 @@ class SearchStates extends StatelessWidget {
     this.results,
   }) : super(key: key);
 
-  Widget _buildContent() {
+  Widget _buildContent(BuildContext context) {
     switch (results.stateType) {
       case SearchStateType.loading:
         return CircularProgressIndicator();
       case SearchStateType.initial:
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: Icon(Icons.search),
-                iconSize: Dimension.iconSearchTypeSize,
-              ),
-            ],
-          ),
-        );
-      case SearchStateType.error:
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: Icon(Icons.search_off),
-                iconSize: Dimension.iconSearchTypeSize,
-              ),
-              RichText(
-                text: TextSpan(
-                  style: TextStyle(color: Colors.grey.shade700),
-                  children: [
-                    TextSpan(
-                      text: 'NO RESULT FOUND',
-                      style: TextStyle(
-                          fontSize: Dimension.searchEventTextFontSize,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+        return InitialState();
+      case SearchStateType.empty:
+        return EmptyState(
+          icon: Icons.search_off,
+          text: 'NO RESULT FOUND',
         );
       case SearchStateType.success:
         ItemModel _movies = results.movies;
@@ -62,20 +34,13 @@ class SearchStates extends StatelessWidget {
             return ListTile(
               title: Text(_movies.results[index].originalTitle),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MovieInfo(
-                      movie: _movies.results[index],
-                      blocGenres: GenresBloc(),
-                    ),
-                  ),
-                );
+                Navigator.pushNamed(context, movieInfo, arguments: _movies.results[index]);
               },
             );
           },
         );
-        break;
+      case SearchStateType.error:
+        return ErrorState();
       default:
         return Container();
     }
@@ -83,6 +48,6 @@ class SearchStates extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: _buildContent());
+    return Center(child: _buildContent(context));
   }
 }
