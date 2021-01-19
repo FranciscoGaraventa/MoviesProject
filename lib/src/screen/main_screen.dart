@@ -1,38 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:provider/provider.dart';
 import 'movies_search.dart';
 import '../styles/styles.dart';
-import '../bloc/genres_bloc.dart';
 import '../bloc/movies_bloc.dart';
+import '../bloc/genres_bloc.dart';
 import '../styles/dimensions.dart';
+import '../models/genre_model.dart';
 import '../events/movie_event.dart';
 import '../widgets/genres_list.dart';
-import '../widgets/movies_fetch_state.dart';
+import '../events/search_event.dart';
+import '../widgets/movies_events.dart';
+import '../bloc/connectivity_bloc.dart';
+import '../events/connectivity_status.dart';
 
-class SearchScreen extends StatefulWidget {
-  SearchScreen({
+class MainScreen extends StatefulWidget {
+  MainScreen({
     Key key,
     this.title,
     this.icon,
-    this.blocMovies,
-    this.blocGenres,
   }) : super(key: key);
 
   final String title;
   final IconData icon;
-  final MoviesBloc blocMovies;
-  final GenresBloc blocGenres;
 
   @override
   State<StatefulWidget> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchScreenState extends State<MainScreen> {
+  GenreModel _genres;
+  SearchEvent _movies;
+  var connectionStatus;
+
+  void _genreList() {
+    Provider.of<GenresBloc>(context, listen: false).allGenres.listen((event) {
+      _genres = event;
+      setState(() {});
+    });
+  }
+
+  void _moviesList() {
+    Provider.of<MoviesBloc>(context, listen: false).trendingMovies.listen((event) {
+      _movies = event;
+      setState(() {});
+    });
+  }
+
+  void _updateInformation() {
+    Provider.of<MoviesBloc>(context, listen: false).fetchTrendingByEvent(MovieEvent.loadTrendingMovies);
+    Provider.of<GenresBloc>(context, listen: false).fetchAllGenres();
+  }
+
   @override
   void initState() {
     super.initState();
-    widget.blocMovies.fetchMovies(MovieEvent.loadTrendingMovies);
-    widget.blocGenres.fetchAllGenres();
+    _moviesList();
+    _genreList();
+    _updateInformation();
+    Provider.of<ConnectivityServiceBloc>(context, listen: false).connectionStatusController.stream.listen((event) {
+      if (event == ConnectivityStatus.Online) {
+        Future.delayed(Duration(seconds: 3), () {
+          _updateInformation();
+        });
+      }
+    });
   }
 
   @override
@@ -61,9 +93,7 @@ class _SearchScreenState extends State<SearchScreen> {
             onPressed: () async {
               await showSearch(
                 context: context,
-                delegate: CustomMoviesSearch(
-                  moviesBloc: MoviesBloc(),
-                ),
+                delegate: CustomMoviesSearch('Search movies...'),
               );
             },
           ),
@@ -84,33 +114,17 @@ class _SearchScreenState extends State<SearchScreen> {
                   color: Colors.blue.shade900,
                 )),
           ),
-          StreamBuilder(
-            stream: widget.blocGenres.allGenres,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return GenresList(
-                  resultGenres: snapshot.data,
-                );
-              } else if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              }
-              return Center(child: CircularProgressIndicator());
-            },
+          GenresList(
+            resultGenres: _genres,
           ),
         ]),
       ),
       body: Center(
-        child: StreamBuilder(
-          stream: widget.blocMovies.allMovies,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return MoviesFetchState(
-                eventResult: snapshot.data,
-              );
-            }
-            return Container();
-          },
-        ),
+        child: _movies != null
+            ? MoviesEvents(
+                eventResult: _movies,
+              )
+            : Container(),
       ),
     );
   }

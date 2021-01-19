@@ -3,11 +3,11 @@ import '../styles/dimensions.dart';
 import '../models/item_model.dart';
 import 'card_grid.dart';
 
-class MovieList extends StatelessWidget {
+class MovieGrid extends StatelessWidget {
   final ItemModel resultData;
   final int crossAxisCount;
 
-  const MovieList({
+  const MovieGrid({
     Key key,
     this.resultData,
     this.crossAxisCount = Dimension.movieListAxisCount,

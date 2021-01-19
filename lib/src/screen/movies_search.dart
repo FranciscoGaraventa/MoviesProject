@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import '../models/item_model.dart';
+import 'package:provider/provider.dart';
 import '../bloc/movies_bloc.dart';
+import '../models/item_model.dart';
 import '../events/movie_event.dart';
-import '../events/search_event.dart';
+import '../widgets/initial_state.dart';
 import '../widgets/search_events.dart';
 
 class CustomMoviesSearch extends SearchDelegate<ItemModel> {
-  final MoviesBloc moviesBloc;
+  @override
+  final String searchFieldLabel;
 
-  CustomMoviesSearch({this.moviesBloc});
+  CustomMoviesSearch(this.searchFieldLabel);
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -35,24 +37,27 @@ class CustomMoviesSearch extends SearchDelegate<ItemModel> {
 
   @override
   Widget buildResults(BuildContext context) {
-    moviesBloc.fetchMovies(MovieEvent.loadMoviesBySearch, query);
-    return StreamBuilder(
-      stream: moviesBloc.allMovies,
-      initialData: SearchEvent(
-        stateType: SearchStateType.initial,
-      ),
-      builder: (BuildContext context, snapshot) {
-        if (!snapshot.hasData) {
-          return Container();
-        } else {
-          return SearchStates(
-            results: snapshot.data,
-          );
-        }
-      },
-    );
+    if (query.isNotEmpty) {
+      Provider.of<MoviesBloc>(context).fetchMoviesByQuery(MovieEvent.loadMoviesBySearch, query);
+      return StreamBuilder(
+        stream: Provider.of<MoviesBloc>(context).allMovies,
+        builder: (BuildContext context, snapshot) {
+          if (!snapshot.hasData) {
+            return Container();
+          } else {
+            return SearchStates(
+              results: snapshot.data,
+            );
+          }
+        },
+      );
+    } else {
+      return InitialState();
+    }
   }
 
   @override
-  Widget buildSuggestions(BuildContext context) => Container();
+  Widget buildSuggestions(BuildContext context) {
+    return InitialState();
+  }
 }

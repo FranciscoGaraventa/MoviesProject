@@ -15,4 +15,5 @@ enum SearchStateType {
   success,
   error,
   initial,
+  empty,
 }

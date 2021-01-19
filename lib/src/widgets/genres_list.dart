@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../bloc/movies_bloc.dart';
-import '../screen/movies_by_genre.dart';
+import 'empty_state.dart';
+import '../styles/routes.dart';
 import '../models/genre_model.dart';
 
 class GenresList extends StatelessWidget {
@@ -10,27 +10,24 @@ class GenresList extends StatelessWidget {
 
   Widget _buildContent() {
     return SingleChildScrollView(
-      child: ListView.builder(
-        itemCount: resultGenres.genres.length,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text('${resultGenres.genres[index].name}'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MoviesByGenre(
-                    genre: resultGenres.genres[index],
-                    blocMovies: MoviesBloc(),
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      ),
+      child: resultGenres.genres.length > 0
+          ? ListView.builder(
+              itemCount: resultGenres.genres.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text('${resultGenres.genres[index].name}'),
+                  onTap: () {
+                    Navigator.pushNamed(context, movieByGenre, arguments: resultGenres.genres[index]);
+                  },
+                );
+              },
+            )
+          : EmptyState(
+              icon: Icons.local_movies,
+              text: 'GENRES UNAVAILABLE',
+            ),
     );
   }
 

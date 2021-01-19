@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import '../events/movie_event.dart';
+import 'package:provider/provider.dart';
 import '../bloc/movies_bloc.dart';
+import '../events/movie_event.dart';
+import '../widgets/movies_events.dart';
+import '../bloc/connectivity_bloc.dart';
 import '../models/genre_result_model.dart';
-import '../widgets/movies_fetch_state.dart';
+import '../events/connectivity_status.dart';
 
 class MoviesByGenre extends StatefulWidget {
   final GenreResult genre;
-  final MoviesBloc blocMovies;
 
   MoviesByGenre({
     Key key,
     this.genre,
-    this.blocMovies,
   }) : super(key: key);
 
   @override
@@ -19,24 +20,37 @@ class MoviesByGenre extends StatefulWidget {
 }
 
 class _MoviesGenreList extends State<MoviesByGenre> {
+  void _fetchMoviesByGenre() {
+    Provider.of<MoviesBloc>(context, listen: false)
+        .fetchMoviesByQuery(MovieEvent.loadMoviesByGenreId, widget.genre.id.toString());
+  }
+
   @override
   void initState() {
     super.initState();
-    widget.blocMovies.fetchMovies(
-        MovieEvent.loadMoviesByGenreId, widget.genre.id.toString());
+    _fetchMoviesByGenre();
+    Provider.of<ConnectivityServiceBloc>(context, listen: false).connectionStatusController.stream.listen((event) {
+      if (event == ConnectivityStatus.Online) {
+        Future.delayed(Duration(seconds: 3), () {
+          _fetchMoviesByGenre();
+        });
+      }
+    });
   }
 
-  Widget _buildContent() {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.genre.name),
       ),
       body: Center(
         child: StreamBuilder(
-          stream: widget.blocMovies.allMovies,
+          stream: Provider.of<MoviesBloc>(context, listen: false).allMovies,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return MoviesFetchState(
+              return MoviesEvents(
+                title: widget.genre.name,
                 eventResult: snapshot.data,
               );
             }
@@ -45,10 +59,5 @@ class _MoviesGenreList extends State<MoviesByGenre> {
         ),
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildContent();
   }
 }
