@@ -1,4 +1,4 @@
-import '../models/item_model.dart';
+import '../models/movie_model.dart';
 
 class SearchEvent {
   SearchEvent({
@@ -6,7 +6,7 @@ class SearchEvent {
     this.stateType,
   });
 
-  final ItemModel movies;
+  final MovieModel movies;
   final SearchStateType stateType;
 }
 

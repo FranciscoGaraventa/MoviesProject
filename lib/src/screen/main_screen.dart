@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:movies_widgets_package/movies_widgets_package.dart';
 import 'package:provider/provider.dart';
 import 'movies_search.dart';
 import '../styles/styles.dart';
+import '../styles/routes.dart';
 import '../bloc/movies_bloc.dart';
 import '../bloc/genres_bloc.dart';
 import '../styles/dimensions.dart';
-import '../models/genre_model.dart';
 import '../events/movie_event.dart';
-import '../widgets/genres_list.dart';
 import '../events/search_event.dart';
 import '../widgets/movies_events.dart';
 import '../bloc/connectivity_bloc.dart';
@@ -25,17 +25,17 @@ class MainScreen extends StatefulWidget {
   final IconData icon;
 
   @override
-  State<StatefulWidget> createState() => _SearchScreenState();
+  State<StatefulWidget> createState() => _MainScreenState();
 }
 
-class _SearchScreenState extends State<MainScreen> {
-  GenreModel _genres;
+class _MainScreenState extends State<MainScreen> {
+  List<Genre> _genres;
   SearchEvent _movies;
   var connectionStatus;
 
   void _genreList() {
     Provider.of<GenresBloc>(context, listen: false).allGenres.listen((event) {
-      _genres = event;
+      _genres = event.parseGenres();
       setState(() {});
     });
   }
@@ -115,7 +115,10 @@ class _SearchScreenState extends State<MainScreen> {
                 )),
           ),
           GenresList(
-            resultGenres: _genres,
+            onTapAction: (context, movie) => Navigator.of(context).pushNamed(movieByGenre, arguments: movie),
+            emptyStateText: 'GENRES UNAVAILABLE',
+            defaultImageRoute: 'assets/images/imageNoAvailable.svg',
+            genresList: _genres,
           ),
         ]),
       ),

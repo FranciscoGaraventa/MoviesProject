@@ -142,6 +142,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0-nullsafety.6"
+  movies_widgets_package:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "84773c490d072ca9a52f4f18fea60eb06d063e55"
+      url: "https://github.com/FranciscoGaraventa/moviesWidgets"
+    source: git
+    version: "0.0.1"
   nested:
     dependency: transitive
     description:

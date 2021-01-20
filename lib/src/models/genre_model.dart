@@ -1,4 +1,5 @@
-import 'genre_result_model.dart';
+import 'package:movies_widgets_package/movies_widgets_package.dart';
+import 'genre_result.dart';
 
 class GenreModel {
   List<GenreResult> _genres = [];
@@ -15,6 +16,17 @@ class GenreModel {
       }
     }
     _genres = temp;
+  }
+
+  List<Genre> parseGenres() {
+    List<Genre> _genresList = [];
+    for (GenreResult genre in _genres) {
+      _genresList.add(Genre(
+        id: genre.id,
+        name: genre.name,
+      ));
+    }
+    return _genresList;
   }
 
   List<GenreResult> get genres => _genres;

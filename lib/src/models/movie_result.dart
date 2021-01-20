@@ -1,6 +1,6 @@
 import '../resources/base_url.dart';
 
-class Result {
+class MovieResult {
   List<int> _genreIds = [];
   String _originalLanguage;
   String _originalTitle;
@@ -17,7 +17,7 @@ class Result {
   double _popularity;
   String _mediaType;
 
-  Result(result) {
+  MovieResult(result) {
     for (int i = 0; i < result['genre_ids'].length; i++) {
       _genreIds.add(result['genre_ids'][i]);
     }
