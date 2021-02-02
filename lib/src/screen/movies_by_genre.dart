@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:movies_widgets_package/movies_widgets_package.dart';
 import 'package:provider/provider.dart';
 import '../bloc/movies_bloc.dart';
 import '../events/movie_event.dart';
 import '../widgets/movies_events.dart';
 import '../bloc/connectivity_bloc.dart';
-import '../models/genre_result_model.dart';
 import '../events/connectivity_status.dart';
 
 class MoviesByGenre extends StatefulWidget {
-  final GenreResult genre;
+  final Genre genre;
 
   MoviesByGenre({
     Key key,

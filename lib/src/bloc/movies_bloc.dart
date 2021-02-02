@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'bloc.dart';
-import '../models/item_model.dart';
+import '../models/movie_model.dart';
 import '../events/movie_event.dart';
 import '../events/search_event.dart';
 import '../resources/movies_repository.dart';
@@ -24,7 +24,7 @@ class MoviesBloc extends Bloc {
   void initialize() {}
 
   void fetchMoviesBySearch(String query) async {
-    ItemModel itemModel = await _repository.fetchMoviesBySearch(query);
+    MovieModel itemModel = await _repository.fetchMoviesBySearch(query);
     if (!itemModel.getError) {
       if (itemModel.results.isNotEmpty) {
         _moviesFetcherController.sink.add(SearchEvent(movies: itemModel, stateType: SearchStateType.success));
@@ -37,7 +37,7 @@ class MoviesBloc extends Bloc {
   }
 
   void fetchMoviesByGenre(String genreId) async {
-    ItemModel itemModel = await _repository.fetchMovieByGenre(genreId);
+    MovieModel itemModel = await _repository.fetchMovieByGenre(genreId);
     if (!itemModel.getError) {
       if (itemModel.results.isNotEmpty) {
         _moviesFetcherController.sink.add(SearchEvent(movies: itemModel, stateType: SearchStateType.success));
@@ -50,7 +50,7 @@ class MoviesBloc extends Bloc {
   }
 
   void fetchTrendingMovies() async {
-    ItemModel itemModel = await _repository.fetchTrendingMovies();
+    MovieModel itemModel = await _repository.fetchTrendingMovies();
     if (!itemModel.getError) {
       if (itemModel.results.isNotEmpty) {
         _trendingFetcherController.add(SearchEvent(movies: itemModel, stateType: SearchStateType.success));

@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'bloc/bloc.dart';
 import 'styles/routes.dart';
 import 'bloc/movies_bloc.dart';
 import 'bloc/genres_bloc.dart';
-import 'resources/custom_router.dart';
-import 'package:provider/provider.dart';
 import 'bloc/connectivity_bloc.dart';
+import 'resources/custom_router.dart';
 
 class MyApp extends StatefulWidget {
   @override

@@ -30,6 +30,9 @@ dependencies:
   cupertino_icons: ^1.0.0
   provider: ^4.3.2+3
   connectivity: ^2.0.2
+  movies_widgets_package:
+    git:
+      url: https://github.com/FranciscoGaraventa/moviesWidgets
 
 dev_dependencies:
   flutter_test:

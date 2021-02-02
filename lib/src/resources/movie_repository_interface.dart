@@ -1,12 +1,12 @@
 import '../models/genre_model.dart';
-import '../models/item_model.dart';
+import '../models/movie_model.dart';
 
 abstract class IMovieRepository {
-  Future<ItemModel> fetchTrendingMovies();
+  Future<MovieModel> fetchTrendingMovies();
 
-  Future<ItemModel> fetchMovieByGenre(String genreId);
+  Future<MovieModel> fetchMovieByGenre(String genreId);
 
-  Future<ItemModel> fetchMoviesBySearch(String query);
+  Future<MovieModel> fetchMoviesBySearch(String query);
 
   Future<GenreModel> fetchAllGenres();
 }

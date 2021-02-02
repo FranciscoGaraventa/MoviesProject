@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:movies_widgets_package/movies_widgets_package.dart';
 import '../bloc/genres_bloc.dart';
 import '../styles/dimensions.dart';
-import '../models/result_model.dart';
-import '../widgets/backdrop_image.dart';
-import '../widgets/movie_overview.dart';
-import '../widgets/backdrop_rating.dart';
-import '../widgets/staggered_grid_builder.dart';
+import '../models/genre_model.dart';
+import '../models/genre_result.dart';
 
 class MovieInfo extends StatefulWidget {
-  final Result movie;
+  final Movie movie;
 
   MovieInfo({
     Key key,
@@ -39,6 +37,21 @@ class _MovieInfoState extends State<MovieInfo> {
           setState(() {});
         },
       );
+  }
+
+  String _getGenreName(GenreModel data, int id) {
+    for (GenreResult gr in data.genres) {
+      if (gr.id == id) return gr.name;
+    }
+    return "";
+  }
+
+  List<String> _parseGenresToString(List<int> genreIds, GenreModel snapshot) {
+    List<String> _genresList = [];
+    for (int genreId in genreIds) {
+      _genresList.add(_getGenreName(snapshot, genreId));
+    }
+    return _genresList;
   }
 
   Widget _customScrollView() {
@@ -80,15 +93,17 @@ class _MovieInfoState extends State<MovieInfo> {
             title: Opacity(
               opacity: _isCollapsed == true ? 1 : 0,
               child: Text(
-                '${widget.movie.originalTitle}',
+                widget.movie.originalTitle,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: Dimension.movieInfoAppBarTextFontSize,
                 ),
               ),
             ),
-            background: BackdropImage(
-              movie: widget.movie,
+            background: MovieBackdropImage(
+              movieId: widget.movie.id,
+              backdropPath: widget.movie.backdropPath,
+              defaultImageRoute: 'assets/images/imageNoAvailable.svg',
             ),
           ),
         ),
@@ -98,8 +113,10 @@ class _MovieInfoState extends State<MovieInfo> {
             child: Center(
               child: Column(
                 children: [
-                  BackDropRating(
-                    movie: widget.movie,
+                  RatingReleaseLang(
+                    originalLanguage: widget.movie.originalLanguage,
+                    releaseDate: widget.movie.releaseDate,
+                    voteAverage: widget.movie.voteAverage,
                   ),
                   Padding(
                     padding: EdgeInsets.only(
@@ -110,15 +127,13 @@ class _MovieInfoState extends State<MovieInfo> {
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return Padding(
-                            padding: EdgeInsets.only(
-                              left: Dimension.staggeredGridPadding,
-                              right: Dimension.staggeredGridPadding,
-                            ),
-                            child: StaggeredGridBuilder(
-                              resultData: snapshot.data,
-                              movie: widget.movie,
-                            ),
-                          );
+                              padding: EdgeInsets.only(
+                                left: Dimension.staggeredGridPadding,
+                                right: Dimension.staggeredGridPadding,
+                              ),
+                              child: GenresGridView(
+                                genres: _parseGenresToString(widget.movie.genreIds, snapshot.data),
+                              ));
                         } else if (snapshot.hasError) {
                           return Text(snapshot.error.toString());
                         }
@@ -127,7 +142,7 @@ class _MovieInfoState extends State<MovieInfo> {
                     ),
                   ),
                   MovieOverview(
-                    movie: widget.movie,
+                    overview: widget.movie.overview,
                   ),
                 ],
               ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'empty_state.dart';
-import 'error_state.dart';
-import 'movie_grid.dart';
+import 'package:movies_widgets_package/movies_widgets_package.dart';
+import '../styles/routes.dart';
 import '../events/search_event.dart';
 
 class MoviesEvents extends StatelessWidget {
@@ -19,15 +18,20 @@ class MoviesEvents extends StatelessWidget {
       case SearchStateType.loading:
         return CircularProgressIndicator();
       case SearchStateType.error:
-        return ErrorState();
+        return MovieEventError(
+          messageError: 'NO SERVICE AVAILABLE',
+        );
       case SearchStateType.success:
-        return MovieGrid(
-          resultData: eventResult.movies,
+        return MoviesGridView(
+          movieList: eventResult.movies.parseMovie(),
+          defaultImageRoute: 'assets/images/imageNoAvailable.svg',
+          onItemClick: (context, movie) => Navigator.of(context).pushNamed(movieInfo, arguments: movie),
         );
       case SearchStateType.initial:
       case SearchStateType.empty:
-        return EmptyState(
+        return MovieEventEmpty(
           text: 'NO MOVIES AVAILABLE',
+          defaultImageRoute: 'assets/images/moviesNoAvailable.png',
         );
       default:
         return Container();

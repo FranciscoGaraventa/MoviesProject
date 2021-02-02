@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:movies_widgets_package/movies_widgets_package.dart';
 import 'package:provider/provider.dart';
 import '../bloc/movies_bloc.dart';
-import '../models/item_model.dart';
+import '../models/movie_model.dart';
 import '../events/movie_event.dart';
-import '../widgets/initial_state.dart';
 import '../widgets/search_events.dart';
 
-class CustomMoviesSearch extends SearchDelegate<ItemModel> {
+class CustomMoviesSearch extends SearchDelegate<MovieModel> {
   @override
   final String searchFieldLabel;
 
@@ -52,12 +52,16 @@ class CustomMoviesSearch extends SearchDelegate<ItemModel> {
         },
       );
     } else {
-      return InitialState();
+      return MovieEventInitial(
+        initialMessage: 'INSERT MOVIE NAME TO SEARCH',
+      );
     }
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return InitialState();
+    return MovieEventInitial(
+      initialMessage: 'INSERT MOVIE NAME TO SEARCH',
+    );
   }
 }
