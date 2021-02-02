@@ -72,6 +72,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Row(
+          key: Key('TitleRow'),
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
@@ -89,6 +90,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
         actions: <Widget>[
           IconButton(
+            key: Key('iconButtonSearch'),
             icon: Icon(Icons.search),
             onPressed: () async {
               await showSearch(

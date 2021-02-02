@@ -6,6 +6,7 @@ import '../models/genre_model.dart';
 
 class MovieApiProvider {
   Client client = Client();
+
   final _apiKey = '4d78e349d0cf62194053e8daf6826b2a';
 
   Future<MovieModel> fetchTrendingMovies() async {
@@ -63,5 +64,9 @@ class MovieApiProvider {
     } catch (e) {
       return MovieModel(error: true);
     }
+  }
+
+  void setClient(_client) {
+    return client = _client;
   }
 }

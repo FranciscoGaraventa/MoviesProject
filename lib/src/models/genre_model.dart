@@ -31,5 +31,9 @@ class GenreModel {
 
   List<GenreResult> get genres => _genres;
 
+  void setGenres(List<GenreResult> resGenres){
+    _genres = resGenres;
+  }
+
   bool get getError => error;
 }

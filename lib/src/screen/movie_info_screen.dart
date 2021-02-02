@@ -83,6 +83,7 @@ class _MovieInfoState extends State<MovieInfo> {
               left: Dimension.movieSliverLeadingLeftEdgeInsets,
             ),
             child: IconButton(
+              key: Key('CollapsedIcon'),
               color: _isCollapsed ? Colors.blue.shade300 : Colors.grey.shade700,
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.of(context).pop(),
@@ -94,6 +95,7 @@ class _MovieInfoState extends State<MovieInfo> {
               opacity: _isCollapsed == true ? 1 : 0,
               child: Text(
                 widget.movie.originalTitle,
+                key: Key('CollapsedText'),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: Dimension.movieInfoAppBarTextFontSize,
