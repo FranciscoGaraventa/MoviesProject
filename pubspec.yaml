@@ -33,10 +33,12 @@ dependencies:
   movies_widgets_package:
     git:
       url: https://github.com/FranciscoGaraventa/moviesWidgets
+  network_image_mock: ^1.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mockito: ^4.1.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

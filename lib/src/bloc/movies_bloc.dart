@@ -1,5 +1,5 @@
-import 'dart:async';
 import 'bloc.dart';
+import 'dart:async';
 import '../models/movie_model.dart';
 import '../events/movie_event.dart';
 import '../events/search_event.dart';

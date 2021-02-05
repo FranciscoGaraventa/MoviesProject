@@ -16,13 +16,14 @@ class MoviesEvents extends StatelessWidget {
   Widget _buildContent(BuildContext context) {
     switch (eventResult.stateType) {
       case SearchStateType.loading:
-        return CircularProgressIndicator();
+        return CircularProgressIndicator(key: Key('stateTypeLoading'),);
       case SearchStateType.error:
         return MovieEventError(
           messageError: 'NO SERVICE AVAILABLE',
         );
       case SearchStateType.success:
         return MoviesGridView(
+          key: Key('moviesGridView'),
           movieList: eventResult.movies.parseMovie(),
           defaultImageRoute: 'assets/images/imageNoAvailable.svg',
           onItemClick: (context, movie) => Navigator.of(context).pushNamed(movieInfo, arguments: movie),

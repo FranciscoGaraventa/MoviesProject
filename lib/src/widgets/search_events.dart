@@ -14,7 +14,7 @@ class SearchStates extends StatelessWidget {
   Widget _buildContent(BuildContext context) {
     switch (results.stateType) {
       case SearchStateType.loading:
-        return CircularProgressIndicator();
+        return CircularProgressIndicator(key: Key('searchTypeLoading'),);
       case SearchStateType.initial:
         return MovieEventInitial(
           initialMessage: 'INSERT MOVIE NAME TO SEARCH',
@@ -28,6 +28,7 @@ class SearchStates extends StatelessWidget {
       case SearchStateType.success:
         List<Movie> _movieList = results.movies.parseMovie();
         return ListView.builder(
+          key: Key('stateTypeSuccessListView'),
           itemCount: _movieList.length,
           itemBuilder: (context, index) {
             return ListTile(
